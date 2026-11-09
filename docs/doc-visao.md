@@ -66,13 +66,13 @@
 | Código    |              Nome             |    Descrição    | Categoria |
 | --------- | ----------------------------- | --------------- | --------- |
 | **RNF01** | Interface Simples e Intuitiva | Desenvolvida em Next.js (JavaScript) utilizando componentes estilizados com Tailwind CSS para garantir acessibilidade e responsividade. | *Usabilidade* |
-| **RNF02** | Integridade dos Dados | Impedir o cadastro de clientes duplicados e garantir a validação de campos obrigatórios (nome e identificação). | Confiabilidade |
-| **RNF03** | Regra de Exclusão Lógica | Clientes vinculados a vendas registradas não devem ser excluídos fisicamente do banco de dados, permitindo apenas a sua inativação. | Regra de Negócio |
+| **RNF02** | Integridade dos Dados | Impedir o cadastro de clientes duplicados e garantir a validação de campos obrigatórios (nome e identificação). | *Confiabilidade* |
+| **RNF03** | Regra de Exclusão Lógica | Clientes vinculados a vendas registradas não devem ser excluídos fisicamente do banco de dados, permitindo apenas a sua inativação. | *Regra de Negócio* |
 
 ---
 
 ## 4. Restrições do Projeto
 
-* A aplicação deve ser desenvolvida utilizando o framework **Next.js** com **JavaScript**[cite: 3].
-* O foco prioritário da implementação funcional para a avaliação da disciplina é o **CRUD de Clientes** (Manter cliente)[cite: 3, 12, 22].
-* O projeto deve cumprir o cronograma estipulado nas Sprints (Sprint 1 até 12/11, Sprint 2 até 19/11 e Apresentação de 23 a 26/11)[cite: 4, 5].
+* A aplicação deve ser desenvolvida utilizando o framework **Next.js** com **JavaScript**.
+* O foco prioritário da implementação funcional para a avaliação da disciplina é o **CRUD de Clientes** (Manter cliente).
+* O projeto deve cumprir o cronograma estipulado nas Sprints (Sprint 1 até 12/11, Sprint 2 até 19/11 e Apresentação de 23 a 26/11).
