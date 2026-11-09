@@ -2,17 +2,27 @@
 
 ## Histórico de Revisões
 
-|    Data    |  Versão | Descrição | Autor |
-| ---------- | ------- | --------- | ----- |
-| 05/11/2026 |   1.0   | Criação do Documento de Modelos com foco no CRUD de Clientes da Comcil | Daniel Mariz, Jonas Jerônimo, Gabriel Samir, Leandro Isaac |
+| Data | Versão | Descrição | Autor |
+| :--- | :--- | :--- | :--- |
+| 05/11/2026 | 1.0 | Criação do Documento de Modelos com foco no CRUD de Clientes da Comcil | Daniel Mariz, Jonas Jerônimo, Gabriel Samir, Leandro Isaac |
 
 ---
 
 ## 1. Diagrama de Casos de Uso
 
-O diagrama a seguir especifica as funcionalidades do sistema propostas no projeto de OSM para a empresa Comcil. Para a escopo prático desta disciplina, a equipe focará na implementação do caso de uso **Manter cliente**.
+O diagrama a seguir especifica as funcionalidades do sistema propostas no projeto de OSM para a empresa Comcil. Para o escopo prático desta disciplina, a equipe focará na implementação do caso de uso **Manter cliente**.
 
-![Diagrama de Casos de Uso](../public/diagrama-casos-uso.png)
+```text
+               +-------------------------------------------------+
+               |     Sistema de Estoque Comcil - Módulo Cliente   |
+               |                                                 |
+  ((Vendedor)) |       +----------------------------------+      |
+       o       |------->|   Caso de Uso: Manter cliente    |      |
+      /|\      |        |   (Cadastrar, Consultar, Alterar |      |
+      / \      |        |    e Excluir/Inativar Cliente)    |      |
+               |        +----------------------------------+      |
+               +-------------------------------------------------+
+```
 
 ### 1.1 Descrição dos Casos de Uso
 
@@ -28,12 +38,37 @@ O diagrama a seguir especifica as funcionalidades do sistema propostas no projet
 
 O diagrama de classes a seguir apresenta a estrutura das entidades do sistema. A entidade `Cliente` centraliza os atributos cadastrais e relaciona-se com as vendas efetuadas na empresa.
 
-![Diagrama de Classes](../public/diagrama-classes.png)
+```text
++------------------------------------+
+|              Cliente               |
++------------------------------------+
+| - id: int                          |
+| - nome: String                     |
+| - telefone: String                 |
+| - endereco: String                 |
++------------------------------------+
+| + cadastrarCliente(): void         |
+| + consultarCliente(): List<Cliente>|
+| + alterarCliente(): void           |
+| + excluirCliente(): void           |
++------------------------------------+
+                  | 1
+                  |
+                  | 0..*
++------------------------------------+
+|               Venda                |
++------------------------------------+
+| - id: int                          |
+| - data: Date                       |
+| - valorTotal: double               |
+| - statusPagamento: String          |
++------------------------------------+
+```
 
 ### 2.1 Descrição das Entidades Principais
 
-* **Cliente:** Armazena `id`, `nome`, `telefone` e `endereco` Responsável pelas operações de CRUD.
-* **Venda:** Armazena o histórico de vendas realizadas, mantendo a relação de $1$ cliente para $0..*$ vendas ($1 : N$).
+* **Cliente:** Armazena `id`, `nome`, `telefone` e `endereco`. Responsável pelas operações de CRUD.
+* **Venda:** Armazena o histórico de vendas realizadas, mantendo a relação de 1 cliente para 0..* vendas ($1 : N$).
 
 ---
 
@@ -43,7 +78,23 @@ O diagrama de classes a seguir apresenta a estrutura das entidades do sistema. A
 
 O diagrama de sequência descreve o fluxo de mensagens entre a interface gráfica desenvolvida em **Next.js** (App Router), os controladores da API e a camada de dados para as operações do CRUD de Clientes.
 
-![Diagrama de Sequência - CRUD Cliente](../public/diagrama-sequencia-cliente.png)
+```text
+ Ator Vendedor        TelaCliente (Next.js)      ControladorCliente         Banco de Dados
+     |                         |                         |                         |
+     |--- 1. Selecionar ------>|                         |                         |
+     |    Operação (CRUD)      |                         |                         |
+     |<-- 2. Exibir Formulário-|                         |                         |
+     |                         |                         |                         |
+     |--- 3. Informar Dados --->|                         |                         |
+     |    do Cliente           |                         |                         |
+     |                         |--- 4. Enviar Requis. -->|                         |
+     |                         |       (API Route)       |                         |
+     |                         |                         |--- 5. Validar Dados --->|
+     |                         |                         |    e Executar Operação  |
+     |                         |                         |<-- 6. Confirmação ------|
+     |                         |<-- 7. Retornar Res. ----|                         |
+     |<-- 8. Exibir Resultado -|                         |                         |
+```
 
 #### Fluxo de Mensagens:
 1. O **Vendedor** acessa a tela de gestão de clientes (`/clientes`) e preenche o formulário de cadastro ou solicita edição/remoção.
@@ -53,9 +104,57 @@ O diagrama de sequência descreve o fluxo de mensagens entre a interface gráfic
 
 ---
 
-## 4. Especificação de Casos de Uso
+## 4. Diagrama de Atividades
 
-### 4.1 UC01 - Manter Cliente
+### 4.1 Diagrama de Atividade - Manter Cliente (CRUD de Clientes)
+
+O diagrama de atividades a seguir representa o fluxo de execução das ações do utilizador e do sistema no processo de manutenção de clientes.
+
+```text
+       (●) Início
+        |
+        v
+[ Acessar funcionalidade ]
+[     Manter cliente     ]
+        |
+        v
+[ Selecionar operação:   ]
+[ Cadastrar/Editar/Excluir]
+        |
+        v
+[ Informar dados do cliente: ]
+[ Nome, Telefone e Endereço  ]
+        |
+        v
+      /   \
+    /       \
+  <   Dados   >  --- Não ---> [ Exibir mensagem ]
+    \ válidos?/               [     de erro     ]
+      \   /                          |
+        | Sim                        |
+        v                            |
+[ Persistir cliente no ]             |
+[    banco de dados    ]             |
+        |                            |
+        v                            |
+[ Atualizar interface  ]             |
+[   em tempo real      ]             |
+        |                            |
+        v                            |
+[ Exibir confirmação   ]             |
+[    da operação       ]             |
+        |                            |
+        +<---------------------------+
+        |
+        v
+       (◎) Fim
+```
+
+---
+
+## 5. Especificação de Casos de Uso
+
+### 5.1 UC01 - Manter Cliente
 
 **Nome:** Manter cliente.  
 **Objetivo:** Permitir o cadastro, consulta, alteração e exclusão de clientes vinculados à Comcil.  
@@ -70,19 +169,19 @@ O diagrama de sequência descreve o fluxo de mensagens entre a interface gráfic
 6. O sistema persiste as informações e atualiza a interface visual em tempo real.
 
 #### Fluxos Alternativos:
-* **A1 - Cliente Duplicado:** O sistema identifica um cliente já cadastrado com os mesmos dados principais e exibe mensagem de alerta, impedindo o novo registro.
-* **A2 - Consulta por Nome ou Código:** O usuário utiliza a barra de busca para filtrar os resultados da tabela.
+- **A1 - Cliente Duplicado:** O sistema identifica um cliente já cadastrado com os mesmos dados principais e exibe mensagem de alerta, impedindo o novo registro.
+- **A2 - Consulta por Nome ou Código:** O usuário utiliza a barra de busca para filtrar os resultados da tabela.
 
 #### Fluxos de Exceção:
-* **E1 - Campos Obrigatórios Não Preenchidos:** O sistema destaca os campos faltantes (ex.: Nome) e impede a confirmação.
-* **E2 - Falha de Comunicação:** Caso ocorra erro na gravação dos dados, o sistema cancela a operação e exibe notificação de falha.
+- **E1 - Campos Obrigatórios Não Preenchidos:** O sistema destaca os campos faltantes (ex.: Nome) e impede a confirmação.
+- **E2 - Falha de Comunicação:** Caso ocorra erro na gravação dos dados, o sistema cancela a operação e exibe notificação de falha.
 
 #### Regras de Negócio:
-* **RN01:** Todo cliente deve possuir identificação única (`id`) e `nome` preenchido.
-* **RN02 (Exclusão Lógica):** Clientes com histórico de vendas vinculadas não devem ser excluídos fisicamente da base de dados; a operação altera apenas seu status para "Inativo".
+- **RN01:** Todo cliente deve possuir identificação única (`id`) e `nome` preenchido.
+- **RN02 (Exclusão Lógica):** Clientes com histórico de vendas vinculadas não devem ser excluídos fisicamente da base de dados; a operação altera apenas seu status para "Inativo".
 
 ---
 
-## 5. Protótipos de Tela (Wireframes)
+## 6. Protótipos de Tela (Wireframes)
 
-* **Tela de Listagem e Cadastro de Clientes (`/clientes`):** Interface responsiva em Next.js e Tailwind CSS composta por tabela interativa contendo colunas de Nome, Telefone, Endereço e Ações (Editar / Excluir), acompanhada de formulário modal/seção para inclusão e edição rápida de dados.
+- **Tela de Listagem e Cadastro de Clientes (`/clientes`):** Interface responsiva em Next.js e Tailwind CSS composta por tabela interativa contendo colunas de Nome, Telefone, Endereço e Ações (Editar / Excluir), acompanhada de formulário modal/seção para inclusão e edição rápida de dados.
