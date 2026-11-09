@@ -12,16 +12,15 @@
 
 O diagrama a seguir especifica as funcionalidades do sistema propostas no projeto de OSM para a empresa Comcil. Para o escopo prático desta disciplina, a equipe focará na implementação do caso de uso **Manter cliente**.
 
-```text
-               +-------------------------------------------------+
-               |     Sistema de Estoque Comcil - Módulo Cliente   |
-               |                                                 |
-  ((Vendedor)) |       +----------------------------------+      |
-       o       |------->|   Caso de Uso: Manter cliente    |      |
-      /|\      |        |   (Cadastrar, Consultar, Alterar |      |
-      / \      |        |    e Excluir/Inativar Cliente)    |      |
-               |        +----------------------------------+      |
-               +-------------------------------------------------+
+```mermaid
+graph LR
+    Vendedor((Vendedor))
+
+    subgraph Sistema ["Sistema de Estoque Comcil - Módulo Cliente"]
+        UC01(["Caso de Uso: Manter cliente<br>(Cadastrar, Consultar, Alterar e Excluir/Inativar Cliente)"])
+    end
+
+    Vendedor --> UC01
 ```
 
 ### 1.1 Descrição dos Casos de Uso
@@ -38,31 +37,27 @@ O diagrama a seguir especifica as funcionalidades do sistema propostas no projet
 
 O diagrama de classes a seguir apresenta a estrutura das entidades do sistema. A entidade `Cliente` centraliza os atributos cadastrais e relaciona-se com as vendas efetuadas na empresa.
 
-```text
-+------------------------------------+
-|              Cliente               |
-+------------------------------------+
-| - id: int                          |
-| - nome: String                     |
-| - telefone: String                 |
-| - endereco: String                 |
-+------------------------------------+
-| + cadastrarCliente(): void         |
-| + consultarCliente(): List<Cliente>|
-| + alterarCliente(): void           |
-| + excluirCliente(): void           |
-+------------------------------------+
-                  | 1
-                  |
-                  | 0..*
-+------------------------------------+
-|               Venda                |
-+------------------------------------+
-| - id: int                          |
-| - data: Date                       |
-| - valorTotal: double               |
-| - statusPagamento: String          |
-+------------------------------------+
+```mermaid
+classDiagram
+    class Cliente {
+        -int id
+        -String nome
+        -String telefone
+        -String endereco
+        +cadastrarCliente(): void
+        +consultarCliente(): List~Cliente~
+        +alterarCliente(): void
+        +excluirCliente(): void
+    }
+
+    class Venda {
+        -int id
+        -Date data
+        -double valorTotal
+        -String statusPagamento
+    }
+
+    Cliente "1" -- "0..*" Venda
 ```
 
 ### 2.1 Descrição das Entidades Principais
@@ -78,22 +73,22 @@ O diagrama de classes a seguir apresenta a estrutura das entidades do sistema. A
 
 O diagrama de sequência descreve o fluxo de mensagens entre a interface gráfica desenvolvida em **Next.js** (App Router), os controladores da API e a camada de dados para as operações do CRUD de Clientes.
 
-```text
- Ator Vendedor        TelaCliente (Next.js)      ControladorCliente         Banco de Dados
-     |                         |                         |                         |
-     |--- 1. Selecionar ------>|                         |                         |
-     |    Operação (CRUD)      |                         |                         |
-     |<-- 2. Exibir Formulário-|                         |                         |
-     |                         |                         |                         |
-     |--- 3. Informar Dados --->|                         |                         |
-     |    do Cliente           |                         |                         |
-     |                         |--- 4. Enviar Requis. -->|                         |
-     |                         |       (API Route)       |                         |
-     |                         |                         |--- 5. Validar Dados --->|
-     |                         |                         |    e Executar Operação  |
-     |                         |                         |<-- 6. Confirmação ------|
-     |                         |<-- 7. Retornar Res. ----|                         |
-     |<-- 8. Exibir Resultado -|                         |                         |
+```mermaid
+sequenceDiagram
+    actor Vendedor as Ator Vendedor
+    participant Tela as TelaCliente (Next.js)
+    participant Ctrl as ControladorCliente
+    participant BD as Banco de Dados
+
+    Vendedor->>Tela: 1. Selecionar Operação (CRUD)
+    Tela-->>Vendedor: 2. Exibir Formulário
+    Vendedor->>Tela: 3. Informar Dados do Cliente
+    Tela->>Ctrl: 4. Enviar Requis. (API Route)
+    Ctrl->>BD: 5. Validar Dados e Executar Operação
+    BD-->>Ctrl: 6. Confirmação
+    Ctrl-->>Tela: 7. Retornar Res.
+    Tela-->>Vendedor: 8. Exibir Resultado
+
 ```
 
 #### Fluxo de Mensagens:
@@ -110,44 +105,18 @@ O diagrama de sequência descreve o fluxo de mensagens entre a interface gráfic
 
 O diagrama de atividades a seguir representa o fluxo de execução das ações do utilizador e do sistema no processo de manutenção de clientes.
 
-```text
-       (●) Início
-        |
-        v
-[ Acessar funcionalidade ]
-[     Manter cliente     ]
-        |
-        v
-[ Selecionar operação:   ]
-[ Cadastrar/Editar/Excluir]
-        |
-        v
-[ Informar dados do cliente: ]
-[ Nome, Telefone e Endereço  ]
-        |
-        v
-      /   \
-    /       \
-  <   Dados   >  --- Não ---> [ Exibir mensagem ]
-    \ válidos?/               [     de erro     ]
-      \   /                          |
-        | Sim                        |
-        v                            |
-[ Persistir cliente no ]             |
-[    banco de dados    ]             |
-        |                            |
-        v                            |
-[ Atualizar interface  ]             |
-[   em tempo real      ]             |
-        |                            |
-        v                            |
-[ Exibir confirmação   ]             |
-[    da operação       ]             |
-        |                            |
-        +<---------------------------+
-        |
-        v
-       (◎) Fim
+```mermaid
+    flowchart TD
+    Start([Início]) --> A[Acessar funcionalidade Manter cliente]
+    A --> B[Selecionar operação: Cadastrar/Editar/Excluir]
+    B --> C[Informar dados do cliente: Nome, Telefone e Endereço]
+    C --> D{Dados válidos?}
+    D -- Não --> E[Exibir mensagem de erro]
+    E --> C
+    D -- Sim --> F[Persistir cliente no banco de dados]
+    F --> G[Atualizar interface em tempo real]
+    G --> H[Exibir confirmação da operação]
+    H --> End([Fim])
 ```
 
 ---
