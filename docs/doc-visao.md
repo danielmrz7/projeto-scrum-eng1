@@ -38,15 +38,15 @@
 
 | Nome | Descrição | Responsabilidade no Projeto |
 | :--- | :--- | :--- |
-| **Equipe de Desenvolvimento** | Daniel Mariz da Silva, Jonas Jerônimo Cirilo Silva, Gabriel Samir e Leandro Isaac[cite: 2, 6, 7] | Planejamento Scrum, documentação, desenvolvimento da interface em Next.js e lógica do CRUD de Clientes[cite: 1, 3, 4]. |
-| **Empresa Comcil** | Empresa familiar potiguar de embalagem e distribuição de temperos[cite: 9] | Contexto de negócio e requisitos definidos no relatório de OSM[cite: 7, 10]. |
-| **Professora** | Profª Karliane Medeiros Ovidio Vale[cite: 1, 7] | Avaliação acadêmica, acompanhamento dos entregáveis e revisões de Sprint[cite: 1, 4, 5]. |
+| **Equipe de Desenvolvimento** | Daniel Mariz da Silva, Jonas Jerônimo Cirilo Silva, Gabriel Samir e Leandro Isaac | Planejamento Scrum, documentação, desenvolvimento da interface em Next.js e lógica do CRUD de Clientes. |
+| **Empresa Comcil** | Empresa familiar potiguar de embalagem e distribuição de temperos| Contexto de negócio e requisitos definidos no relatório de OSM. |
+| **Professora** | Profª Karliane Medeiros Ovidio Vale | Avaliação acadêmica, acompanhamento dos entregáveis e revisões de Sprint. |
 
 ### 2.2 Resumo dos Usuários
 
 | Usuário | Descrição | Responsabilidades |
 | :--- | :--- | :--- |
-| **Vendedor / Operador** | Usuário operacional da Comcil[cite: 9, 12] | Cadastrar novos clientes, atualizar dados de contato/endereço, realizar buscas por nome ou código e gerenciar inativações cadastrais[cite: 22, 23]. |
+| **Vendedor / Operador** | Usuário operacional da Comcil| Cadastrar novos clientes, atualizar dados de contato/endereço, realizar buscas por nome ou código e gerenciar inativações cadastrais. |
 
 ---
 
