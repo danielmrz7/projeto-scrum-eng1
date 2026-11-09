@@ -1,16 +1,16 @@
-# Projeto Prático - Metodologia Scrum
+# Projeto Prático: Sistema Comcil - Módulo de Gestão de Clientes
 
-Este repositório contém o projeto prático desenvolvido para a disciplina de Engenharia de Software I, aplicando a metodologia ágil **Scrum**[cite: 1, 3]. O sistema foi concebido a partir do mapeamento e requisitos definidos na disciplina de OSM (Organização, Sistemas e Métodos)[cite: 3].
+Este repositório contém o projeto de software desenvolvido para a disciplina de **Engenharia de Software I** (UFRN/CERES), sob a orientação da **Profª. Karliane Medeiros Ovidio Vale**. O projeto aplica a metodologia ágil **Scrum** para a implementação de um sistema web fundamentado na análise organizacional desenvolvida na disciplina de **Organização, Sistemas e Métodos (OSM)** para a empresa **Comcil** (embalagem e distribuição de temperos).
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Frontend / Fullstack Framework:** [Next.js](https://nextjs.org/) (JavaScript)
+- **Framework Fullstack/Web:** [Next.js](https://nextjs.org/) (App Router)
 - **Linguagem:** JavaScript (ES6+)
-- **Estilização:** CSS Modules / Tailwind CSS *(ajuste conforme o projeto)*
-- **Gerenciador de Pacotes:** npm / yarn
-- **Controle de Versão e Gestão de Tarefas:** Git, GitHub e GitHub Projects[cite: 3, 4]
+- **Estilização:** Tailwind CSS (configuração rápida e utilitária)
+- **Gerenciador de Pacotes:** npm
+- **Gestão de Projeto e Versão:** Git, GitHub e GitHub Projects (Board Kanban)
 
 ---
 
@@ -18,10 +18,13 @@ Este repositório contém o projeto prático desenvolvido para a disciplina de E
 
 ```text
 .
-├── docs/                 # Documentação do projeto[cite: 3]
-│   ├── doc-visao.md      # Documento de Visão do Sistema[cite: 3]
-│   └── doc-modelos.md    # Documento de Modelos do Sistema[cite: 3]
-├── public/               # Arquivos estáticos do Next.js
-├── src/                  # Código-fonte da aplicação (páginas, componentes e APIs do CRUD)[cite: 3]
-├── README.md             # Documentação principal do repositório[cite: 3]
-└── package.json          # Dependências e scripts do projeto
+├── docs/                 # Documentação de Engenharia de Software
+│   ├── doc-visao.md      # Documento de Visão do Sistema
+│   └── doc-modelos.md    # Documento de Modelos (Classes, Casos de Uso, Sequência)
+├── src/                  # Código-fonte da aplicação Next.js (App Router)
+│   ├── app/              # Páginas e rotas da aplicação (ex: /clientes)
+│   ├── components/       # Componentes reutilizáveis (Tabelas, Formulários, Modais)
+│   └── services/         # Lógica de integração e persistência do CRUD de Clientes
+├── public/               # Recursos estáticos (Logótipo Comcil, ícones)
+├── README.md             # Documentação principal do repositório
+└── package.json          # Dependências do projeto
