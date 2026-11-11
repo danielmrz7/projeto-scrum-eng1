@@ -1,0 +1,5 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body { @apply bg-comcil-paper text-comcil-ink; font-family: ui-sans-serif, system-ui, "Segoe UI", sans-serif; }
+:focus-visible { outline: 2px solid #B3261E; outline-offset: 2px; }

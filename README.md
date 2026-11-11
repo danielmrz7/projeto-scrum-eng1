@@ -1,30 +1,31 @@
-# Projeto Prático: Sistema Comcil - Módulo de Gestão de Clientes
+# Projeto Prático: Sistema Comcil – Módulo de Gestão de Clientes
 
-Este repositório contém o projeto de software desenvolvido para a disciplina de **Engenharia de Software I** (UFRN/CERES), sob a orientação da **Profª. Karliane Medeiros Ovidio Vale**. O projeto aplica a metodologia ágil **Scrum** para a implementação de um sistema web fundamentado na análise organizacional desenvolvida na disciplina de **Organização, Sistemas e Métodos (OSM)** para a empresa **Comcil** (embalagem e distribuição de temperos).
+Projeto da disciplina de **Engenharia de Software I** (UFRN/CERES), orientado pela **Profª. Karliane Medeiros Ovidio Vale**. Aplica **Scrum** na implementação do módulo de clientes do *Sistema de Administração de Estoque* da empresa **Comcil** (embalagem e distribuição de temperos), proposto na disciplina de **Organização, Sistemas e Métodos (OSM)**.
 
----
+## Tecnologias
+Next.js 14 (App Router) · JavaScript · Tailwind CSS · npm · Git/GitHub Projects (Kanban)
 
-## 🛠️ Tecnologias Utilizadas
+## Como executar
+```bash
+npm install
+npm run dev   # http://localhost:3000  (redireciona para /clientes)
+```
+Os dados ficam em `data/clientes.json` (criado automaticamente). Para simular a regra de inativação, crie `data/vendas.json` com `[{ "clienteId": 1 }]`.
 
-- **Framework Fullstack/Web:** [Next.js](https://nextjs.org/) (App Router)
-- **Linguagem:** JavaScript (ES6+)
-- **Estilização:** Tailwind CSS (configuração rápida e utilitária)
-- **Gerenciador de Pacotes:** npm
-- **Gestão de Projeto e Versão:** Git, GitHub e GitHub Projects (Board Kanban)
+## Funcionalidades (CRUD de Clientes)
+- **RF01** Cadastrar · **RF02** Consultar por nome ou código · **RF03** Alterar
+- **RF04** Excluir: com vendas vinculadas o cliente é apenas **inativado**; sem vendas, é excluído. Clientes inativos podem ser reativados.
+- Validações: nome obrigatório e bloqueio de duplicidade (mesmo nome + telefone).
 
----
-
-## 📁 Estrutura do Repositório
-
+## Estrutura
 ```text
 .
-├── docs/                 # Documentação de Engenharia de Software
-│   ├── doc-visao.md      # Documento de Visão do Sistema
-│   └── doc-modelos.md    # Documento de Modelos (Classes, Casos de Uso, Sequência)
-├── src/                  # Código-fonte da aplicação Next.js (App Router)
-│   ├── app/              # Páginas e rotas da aplicação (ex: /clientes)
-│   ├── components/       # Componentes reutilizáveis (Tabelas, Formulários, Modais)
-│   └── services/         # Lógica de integração e persistência do CRUD de Clientes
-├── public/               # Recursos estáticos (Logótipo Comcil, ícones)
-├── README.md             # Documentação principal do repositório
-└── package.json          # Dependências do projeto
+├── docs/                         # Documento de Visão e Documento de Modelos
+├── data/                         # Persistência em JSON (ignorada pelo Git)
+├── src/
+│   ├── app/clientes/page.js      # Tela /clientes
+│   ├── app/api/clientes/         # API Routes (GET, POST, PUT, DELETE)
+│   ├── components/               # ClienteTable, ClienteForm
+│   └── services/clienteService.js# Regras de negócio e persistência
+└── package.json
+```
