@@ -5,6 +5,7 @@
 | Data | Versão | Descrição | Autor |
 | :--- | :--- | :--- | :--- |
 | 05/11/2026 | 1.0 | Elaboração inicial do Documento de Visão com foco no CRUD de Clientes | Daniel Mariz, Jonas Jerônimo, Gabriel Samir, Leandro Isaac |
+| 11/11/2026 | 1.1 | Alinhamento com o relatório de OSM e com a implementação (exclusão/inativação, duplicidade, persistência) | Daniel Mariz, Jonas Jerônimo, Gabriel Samir, Leandro Isaac |
 
 ---
 
@@ -59,14 +60,14 @@
 | **RF01** | Cadastrar Cliente        | Permitir o registro de um novo cliente informando nome, telefone e endereço. | *Alta* |
 | **RF02** | Consultar Cliente        | Permitir a listagem e busca de clientes cadastrados por código ou nome. | *Alta* |
 | **RF03** | Alterar Cliente          | Permitir a edição dos dados cadastrais (nome, telefone, endereço) de um cliente existente. | *Alta* |
-| **RF04** | Excluir/Inativar Cliente | Permitir a remoção do cliente do sistema ou a sua inativação lógica caso possua vendas vinculada. | *Alta* |
+| **RF04** | Excluir/Inativar Cliente | Permitir a remoção do cliente do sistema ou a sua inativação lógica caso possua vendas vinculadas; sem vendas, a exclusão é física. | *Alta* |
 
 ### 3.2 Requisitos Não-Funcionais (RNF)
 
 | Código    |              Nome             |    Descrição    | Categoria |
 | --------- | ----------------------------- | --------------- | --------- |
 | **RNF01** | Interface Simples e Intuitiva | Desenvolvida em Next.js (JavaScript) utilizando componentes estilizados com Tailwind CSS para garantir acessibilidade e responsividade. | *Usabilidade* |
-| **RNF02** | Integridade dos Dados | Impedir o cadastro de clientes duplicados e garantir a validação de campos obrigatórios (nome e identificação). | *Confiabilidade* |
+| **RNF02** | Integridade dos Dados | Impedir o cadastro de clientes duplicados (mesmo nome e telefone) e validar o campo obrigatório nome; a identificação (código) é gerada automaticamente pelo sistema. | *Confiabilidade* |
 | **RNF03** | Regra de Exclusão Lógica | Clientes vinculados a vendas registradas não devem ser excluídos fisicamente do banco de dados, permitindo apenas a sua inativação. | *Regra de Negócio* |
 
 ---
@@ -76,3 +77,5 @@
 * A aplicação deve ser desenvolvida utilizando o framework **Next.js** com **JavaScript**.
 * O foco prioritário da implementação funcional para a avaliação da disciplina é o **CRUD de Clientes** (Manter cliente).
 * O projeto deve cumprir o cronograma estipulado nas Sprints (Sprint 1 até 12/11, Sprint 2 até 19/11 e Apresentação de 23 a 26/11).
+* O módulo de Clientes faz parte do *Sistema de Administração de Estoque* da Comcil (relatório de OSM). Os demais casos de uso (produto, fornecedor, entrada, venda, estoque, relatórios e **Fazer login**) estão fora do escopo desta entrega.
+* A persistência inicial é local, em arquivo JSON (`data/clientes.json`), acessada por API Routes do Next.js.
