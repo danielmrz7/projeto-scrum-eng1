@@ -5,6 +5,7 @@
 | Data | Versão | Descrição | Autor |
 | :--- | :--- | :--- | :--- |
 | 05/11/2026 | 1.0 | Criação do Documento de Modelos com foco no CRUD de Clientes da Comcil | Daniel Mariz, Jonas Jerônimo, Gabriel Samir, Leandro Isaac |
+| 11/11/2026 | 1.1 | Alinhamento com o relatório de OSM: nome do sistema, atributo status, consulta no fluxo de atividades, regras RN02/RN03 | Daniel Mariz, Jonas Jerônimo, Gabriel Samir, Leandro Isaac |
 
 ---
 
@@ -16,7 +17,7 @@ O diagrama a seguir especifica as funcionalidades do sistema propostas no projet
 graph LR
     Vendedor((Vendedor))
 
-    subgraph Sistema ["Sistema de Estoque Comcil - Módulo Cliente"]
+    subgraph Sistema ["Sistema de Administração de Estoque Comcil - Módulo Cliente"]
         UC01(["Caso de Uso: Manter cliente<br>(Cadastrar, Consultar, Alterar e Excluir/Inativar Cliente)"])
     end
 
@@ -28,7 +29,7 @@ graph LR
 #### UC01 - Manter Cliente (Escopo Principal da Implementação)
 * **Descrição:** Permitir o cadastro, consulta, alteração e exclusão/inativação de clientes da Comcil.
 * **Ator Principal:** Vendedor.
-* **Pré-condições:** Usuário autenticado na aplicação web em Next.js.
+* **Pré-condições:** Usuário autenticado na aplicação web (caso de uso *Fazer login* do relatório de OSM; nesta entrega o acesso ao módulo é direto, sem login).
 * **Pós-condições:** Dados do cliente mantidos e persistidos com sucesso.
 
 ---
@@ -44,6 +45,7 @@ classDiagram
         -String nome
         -String telefone
         -String endereco
+        -String status
         +cadastrarCliente(): void
         +consultarCliente(): List~Cliente~
         +alterarCliente(): void
@@ -62,7 +64,7 @@ classDiagram
 
 ### 2.1 Descrição das Entidades Principais
 
-* **Cliente:** Armazena `id`, `nome`, `telefone` e `endereco`. Responsável pelas operações de CRUD.
+* **Cliente:** Armazena `id`, `nome`, `telefone`, `endereco` e `status` (Ativo/Inativo). Responsável pelas operações de CRUD.
 * **Venda:** Armazena o histórico de vendas realizadas, mantendo a relação de 1 cliente para 0..* vendas ($1 : N$).
 
 ---
@@ -106,9 +108,9 @@ sequenceDiagram
 O diagrama de atividades a seguir representa o fluxo de execução das ações do utilizador e do sistema no processo de manutenção de clientes.
 
 ```mermaid
-    flowchart TD
+flowchart TD
     Start([Início]) --> A[Acessar funcionalidade Manter cliente]
-    A --> B[Selecionar operação: Cadastrar/Editar/Excluir]
+    A --> B[Selecionar operação: Cadastrar/Consultar/Editar/Excluir]
     B --> C[Informar dados do cliente: Nome, Telefone e Endereço]
     C --> D{Dados válidos?}
     D -- Não --> E[Exibir mensagem de erro]
@@ -138,7 +140,7 @@ O diagrama de atividades a seguir representa o fluxo de execução das ações d
 6. O sistema persiste as informações e atualiza a interface visual em tempo real.
 
 #### Fluxos Alternativos:
-- **A1 - Cliente Duplicado:** O sistema identifica um cliente já cadastrado com os mesmos dados principais e exibe mensagem de alerta, impedindo o novo registro.
+- **A1 - Cliente Duplicado:** O sistema identifica um cliente já cadastrado com o mesmo nome e telefone e exibe mensagem de alerta, impedindo o novo registro.
 - **A2 - Consulta por Nome ou Código:** O usuário utiliza a barra de busca para filtrar os resultados da tabela.
 
 #### Fluxos de Exceção:
@@ -147,7 +149,8 @@ O diagrama de atividades a seguir representa o fluxo de execução das ações d
 
 #### Regras de Negócio:
 - **RN01:** Todo cliente deve possuir identificação única (`id`) e `nome` preenchido.
-- **RN02 (Exclusão Lógica):** Clientes com histórico de vendas vinculadas não devem ser excluídos fisicamente da base de dados; a operação altera apenas seu status para "Inativo".
+- **RN02 (Exclusão Lógica):** Clientes com histórico de vendas vinculadas não devem ser excluídos fisicamente da base de dados; a operação altera apenas seu status para "Inativo"; clientes sem vendas podem ser excluídos fisicamente.
+- **RN03 (Consulta):** O sistema deve permitir a consulta por nome ou código.
 
 ---
 
