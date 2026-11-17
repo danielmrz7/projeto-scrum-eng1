@@ -1,81 +1,240 @@
-# Documento de Visão - Sistema Comcil (Módulo de Clientes)
+# Documento de Visão
 
-## Histórico de Revisões
+Documento construído a partir do **Modelo BSI - Doc 001 - Documento de Visão**.
 
-| Data | Versão | Descrição | Autor |
-| :--- | :--- | :--- | :--- |
-| 05/11/2026 | 1.0 | Elaboração inicial do Documento de Visão com foco no CRUD de Clientes | Daniel Mariz, Jonas Jerônimo, Gabriel Samir, Leandro Isaac |
-| 11/11/2026 | 1.1 | Alinhamento com o relatório de OSM e com a implementação (exclusão/inativação, duplicidade, persistência) | Daniel Mariz, Jonas Jerônimo, Gabriel Samir, Leandro Isaac |
+## Descrição do Projeto
 
----
+A Comcil é uma empresa familiar fundada em 1998, localizada em Caicó/RN, especializada no segmento de embalagem e distribuição de temperos no estado do Rio Grande do Norte. O projeto consiste na análise, diagnóstico e proposição de um **Sistema de Administração de Estoque** para automatizar o controle e gerenciamento dos estoques da empresa (composto por estoque de matérias-primas/produtos não embalados e estoque de produtos acabados/embalados).
 
-## 1. Visão Geral do Produto
+O sistema visa substituir os controles manuais, garantir o acompanhamento das movimentações de entrada e saída em tempo real, automatizar as atualizações de saldos, controlar vendas (à vista e a prazo), além de apoiar a tomada de decisões por meio da geração de relatórios gerenciais e acompanhamento de estoque mínimo.
 
-### 1.1 Declaração do Problema
+## Equipe e Definição de Papéis
 
-| Elemento | Descrição |
-| :--- | :--- |
-| **O problema de** | Ausência de um cadastro informatizado e centralizado de clientes e do histórico de movimentações comerciais da empresa Comcil. |
-| **afeta** | Os vendedores, operadores operacionais e a gestão da empresa. |
-| **cujo impacto é** | Dificuldade em vincular vendas aos compradores corretos, inconsistência de dados cadastrais e perda de tempo em buscas manuais. |
-| **uma solução de sucesso seria** | Uma aplicação web com interface intuitiva que permita o cadastro, consulta, atualização e desativação lógica de clientes (CRUD completo). |
+| Membro | Papel | E-mail | 
+| ----- | ----- | ----- | 
+| Karliane Medeiros Ovídio Vale | Cliente Professor / Orientadora | karliane@ceres.ufrn.br | 
+| Jonas Jerônimo Cirilo Silva | Analista de Sistemas / Desenvolvedor | jonas@comcil.com.br | 
+| Leandro Isaac | Gerente de Projeto / Desenvolvedor | leandro@comcil.com.br | 
+| Daniel Mariz | Projetista de Banco de Dados / Desenvolvedor | daniel@comcil.com.br | 
+| Gabriel Uchoa | Testador / Analista de Qualidade | gabriel@comcil.com.br | 
 
-### 1.2 Declaração da Posição do Produto
+### Matriz de Competências
 
-| Elemento                                | Descrição |
-| ----------------------------------------| ---------------------------------------------------------------------------------------------- |
-| **Para**                                | A equipe de vendas e operação da empresa Comcil.                                               |
-| **Que**                                 | Necessitam de uma gestão rápida, organizada e segura das informações dos clientes cadastrados. |
-| **O Sistema Comcil (Módulo Clientes)**  | É um sistema web de gestão administrativa.                                                     |
-| **Que**                                 | Disponibiliza um CRUD completo para controle cadastral de clientes (Manter cliente).           |
-| **Diferente de**                        | Anotações manuais em cadernos ou planilhas descentralizadas.                                   |
-| **Nosso produto**                       | Garante rápida resposta visual em Next.js com Tailwind CSS, integridade referencial e facilidade de manutenção|
+| Membro | Competências | 
+| ----- | ----- | 
+| Karliane Medeiros Ovídio Vale | Gestão Acadêmica, Engenharia de Software, Organização de Sistemas e Métodos | 
+| Jonas Jerônimo Cirilo Silva | Levantamento de Requisitos, Modelagem UML, Análise de Processos | 
+| Leandro Isaac | Gestão de Projetos, Arquitetura de Software, Modelagem UML | 
+| Daniel Mariz | Modelagem de Banco de Dados, SQL, Desenvolvimento de Software | 
+| Gabriel Uchoa | Testes de Software, Garantia de Qualidade, Engenharia de Requisitos | 
 
----
+## Perfis dos Usuários
 
-## 2. Perfis dos Envolvidos e dos Usuários
+O sistema poderá ser utilizado por diversos usuários dentro da estrutura da empresa. Temos o seguinte perfil principal identificado na modelagem:
 
-### 2.1 Resumo dos Envolvidos (Stakeholders)
+| Perfil | Descrição | 
+| ----- | ----- | 
+| Vendedor / Colaborador | Usuário do sistema responsável pelo cadastro de entidades base (produtos, fornecedores, clientes), registro de entradas de mercadorias, realização e acompanhamento de vendas, controle financeiro básico (pagamentos/contas a receber), consulta de saldos e geração de relatórios. | 
 
-| Nome | Descrição | Responsabilidade no Projeto |
-| :--- | :--- | :--- |
-| **Equipe de Desenvolvimento** | Daniel Mariz da Silva, Jonas Jerônimo Cirilo Silva, Gabriel Samir e Leandro Isaac | Planejamento Scrum, documentação, desenvolvimento da interface em Next.js e lógica do CRUD de Clientes. |
-| **Empresa Comcil** | Empresa familiar potiguar de embalagem e distribuição de temperos| Contexto de negócio e requisitos definidos no relatório de OSM. |
-| **Professora** | Profª Karliane Medeiros Ovidio Vale | Avaliação acadêmica, acompanhamento dos entregáveis e revisões de Sprint. |
+## Lista de Requisitos Funcionais
 
-### 2.2 Resumo dos Usuários
+### Entidade Autenticação - US01 - Fazer Login
 
-| Usuário | Descrição | Responsabilidades |
-| :--- | :--- | :--- |
-| **Vendedor / Operador** | Usuário operacional da Comcil| Cadastrar novos clientes, atualizar dados de contato/endereço, realizar buscas por nome ou código e gerenciar inativações cadastrais. |
+Permite o acesso seguro dos usuários ao sistema de administração de estoque mediante validação de credenciais.
 
----
+| Requisito | Descrição | Ator | 
+| ----- | ----- | ----- | 
+| RF01.01 - Autenticar Usuário | Realizar login no sistema informando e-mail/login e senha. | Vendedor | 
+| RF01.02 - Bloquear Acesso Inativo | Impedir o acesso de usuários desativados ou inativos. | Vendedor | 
+| RF01.03 - Encerrar Sessão | Permitir que o usuário realize logout do sistema de forma segura. | Vendedor | 
 
-## 3. Requisitos do Sistema
+### Entidade Produto - US02 - Manter Produto
 
-### 3.1 Requisitos Funcionais (RF)
+Gerencia as matérias-primas e produtos acabados comercializados e embalados pela empresa.
 
-| Código   |           Nome           |    Descrição                   | Prioridade |
-| -------- | -------------------------| -------------------------------| ---------- |
-| **RF01** | Cadastrar Cliente        | Permitir o registro de um novo cliente informando nome, telefone e endereço. | *Alta* |
-| **RF02** | Consultar Cliente        | Permitir a listagem e busca de clientes cadastrados por código ou nome. | *Alta* |
-| **RF03** | Alterar Cliente          | Permitir a edição dos dados cadastrais (nome, telefone, endereço) de um cliente existente. | *Alta* |
-| **RF04** | Excluir/Inativar Cliente | Permitir a remoção do cliente do sistema ou a sua inativação lógica caso possua vendas vinculadas; sem vendas, a exclusão é física. | *Alta* |
+| Requisito | Descrição | Ator | 
+| ----- | ----- | ----- | 
+| RF02.01 - Inserir Produto | Insere novo produto informando: nome, categoria, unidade de medida, preço de venda, quantidade inicial e quantidade mínima. | Vendedor | 
+| RF02.02 - Listar/Consultar Produtos | Consulta produtos cadastrados com filtros por nome, categoria ou disponibilidade em estoque. | Vendedor | 
+| RF02.03 - Atualizar Produto | Atualiza os dados de um produto existente (nome, categoria, preço, unidade de medida, etc.). | Vendedor | 
+| RF02.04 - Deletar/Inativar Produto | Inativa ou exclui o cadastro de um produto (impedindo a remoção física caso haja histórico de vendas ou entradas). | Vendedor | 
 
-### 3.2 Requisitos Não-Funcionais (RNF)
+### Entidade Fornecedor - US03 - Manter Fornecedor
 
-| Código    |              Nome             |    Descrição    | Categoria |
-| --------- | ----------------------------- | --------------- | --------- |
-| **RNF01** | Interface Simples e Intuitiva | Desenvolvida em Next.js (JavaScript) utilizando componentes estilizados com Tailwind CSS para garantir acessibilidade e responsividade. | *Usabilidade* |
-| **RNF02** | Integridade dos Dados | Impedir o cadastro de clientes duplicados (mesmo nome e telefone) e validar o campo obrigatório nome; a identificação (código) é gerada automaticamente pelo sistema. | *Confiabilidade* |
-| **RNF03** | Regra de Exclusão Lógica | Clientes vinculados a vendas registradas não devem ser excluídos fisicamente do banco de dados, permitindo apenas a sua inativação. | *Regra de Negócio* |
+Gerencia os fornecedores parceiros responsáveis pelo fornecimento de matérias-primas e suprimentos.
 
----
+| Requisito | Descrição | Ator | 
+| ----- | ----- | ----- | 
+| RF03.01 - Inserir Fornecedor | Insere novo fornecedor informando: nome, telefone e endereço. | Vendedor | 
+| RF03.02 - Listar Fornecedores | Listagem e consulta de fornecedores cadastrados utilizando filtros por nome ou código. | Vendedor | 
+| RF03.03 - Atualizar Fornecedor | Atualiza informações de contato e endereço de um fornecedor cadastrado. | Vendedor | 
+| RF03.04 - Deletar/Inativar Fornecedor | Impede a exclusão física caso o fornecedor possua histórico de entradas, efetuando apenas inativação. | Vendedor | 
 
-## 4. Restrições do Projeto
+### Entidade Cliente - US04 - Manter Cliente
 
-* A aplicação deve ser desenvolvida utilizando o framework **Next.js** com **JavaScript**.
-* O foco prioritário da implementação funcional para a avaliação da disciplina é o **CRUD de Clientes** (Manter cliente).
-* O projeto deve cumprir o cronograma estipulado nas Sprints (Sprint 1 até 12/11, Sprint 2 até 19/11 e Apresentação de 23 a 26/11).
-* O módulo de Clientes faz parte do *Sistema de Administração de Estoque* da Comcil (relatório de OSM). Os demais casos de uso (produto, fornecedor, entrada, venda, estoque, relatórios e **Fazer login**) estão fora do escopo desta entrega.
-* A persistência inicial é local, em arquivo JSON (`data/clientes.json`), acessada por API Routes do Next.js.
+Gerencia os dados dos clientes vinculados às vendas realizadas pela empresa.
+
+| Requisito | Descrição | Ator | 
+| ----- | ----- | ----- | 
+| RF04.01 - Inserir Cliente | Insere novo cliente informando: nome, telefone e endereço. | Vendedor | 
+| RF04.02 - Listar Clientes | Consulta a lista de clientes cadastrados por nome ou código. | Vendedor | 
+| RF04.03 - Atualizar Cliente | Atualiza os dados cadastrais e de contato de um cliente. | Vendedor | 
+| RF04.04 - Deletar/Inativar Cliente | Permite apenas a inativação cadastral caso o cliente já possua vendas vinculadas. | Vendedor | 
+
+### Entidade Entrada - US05 - Registrar Entrada de Produtos
+
+Registra a recepção de novas matérias-primas e mercadorias no estoque, atualizando a quantidade em saldo de forma automática.
+
+| Requisito | Descrição | Ator | 
+| ----- | ----- | ----- | 
+| RF05.01 - Registrar Entrada | Registra a chegada de itens vinculando produto, fornecedor, quantidade recebida e data. | Vendedor | 
+| RF05.02 - Validar Dados de Entrada | Valida se a quantidade informada é maior que zero e se o produto e fornecedor existem. | Vendedor | 
+| RF05.03 - Atualizar Estoque Automático | Incrementa automaticamente a quantidade no estoque do produto após gravação da entrada. | Vendedor | 
+
+### Entidade Venda - US06 - Registrar e Gerenciar Vendas
+
+Processa a saída de produtos para comercialização, validando disponibilidade de estoque e gerando recebimentos.
+
+| Requisito | Descrição | Ator | 
+| ----- | ----- | ----- | 
+| RF06.01 - Registrar Venda | Registra a venda selecionando o cliente, itens (produtos e quantidades) e calculando totais. | Vendedor | 
+| RF06.02 - Validar Disponibilidade | Verifica se há saldo em estoque suficiente antes da confirmação da venda. | Vendedor | 
+| RF06.03 - Processar Pagamento à Vista | Registra pagamento em dinheiro/cartão em vendas à vista e atualiza status. | Vendedor | 
+| RF06.04 - Processar Venda a Prazo | Gera registro de contas a receber com data de vencimento para vendas a prazo. | Vendedor | 
+| RF06.05 - Emitir Comprovante | Emite o comprovante de venda imediatamente após o fechamento da operação. | Vendedor | 
+| RF06.06 - Consultar/Alterar Venda | Permite visualizar detalhes da venda e ajustar itens calculando diferença em estoque. | Vendedor | 
+| RF06.07 - Cancelar Venda | Cancela a venda realizada, estornando os itens vendidos de volta ao saldo do estoque. | Vendedor | 
+
+### Entidade Relatório - US07 - Gerar Relatórios
+
+Oferece visões consolidadas sobre os processos operacionais e financeiros da empresa.
+
+| Requisito | Descrição | Ator | 
+| ----- | ----- | ----- | 
+| RF07.01 - Gerar Relatório de Estoque | Exibe o status atual das quantidades de matérias-primas e produtos embalados. | Vendedor | 
+| RF07.02 - Gerar Relatório de Vendas | Consolida as vendas efetuadas por período, cliente ou forma de pagamento. | Vendedor | 
+| RF07.03 - Gerar Relatório de Entradas | Exibe o histórico de recebimento de produtos por fornecedor e período. | Vendedor | 
+
+### Modelo Conceitual
+
+Abaixo apresentamos o modelo conceitual de entidades usando o **Mermaid**.
+
+```mermaid
+erDiagram
+    FUNCIONARIO ||--o{ VENDA : realiza
+    CLIENTE ||--o{ VENDA : possui
+    FORNECEDOR ||--o{ PRODUTO : fornece
+    PRODUTO ||--o{ ENTRADA_PRODUTO : recebe
+    PRODUTO ||--o{ ITEM_VENDA : composto_por
+    VENDA ||--|{ ITEM_VENDA : contem
+    VENDA ||--o{ PAGAMENTO : gera
+    VENDA ||--o| CONTA : gera
+
+    FUNCIONARIO {
+        int id PK
+        string nome
+        string email
+        string senha
+        string cargo
+    }
+
+    CLIENTE {
+        int id PK
+        string nome
+        string telefone
+        string endereco
+    }
+
+    FORNECEDOR {
+        int id PK
+        string nome
+        string telefone
+        string endereco
+    }
+
+    PRODUTO {
+        int id PK
+        string nome
+        string categoria
+        string unidadeMedida
+        double precoVenda
+        int quantidade
+        int quantidadeMinima
+    }
+
+    ENTRADA_PRODUTO {
+        int id PK
+        date data
+        int quantidade
+    }
+
+    VENDA {
+        int id PK
+        date data
+        double valorTotal
+        string statusPagamento
+    }
+
+    ITEM_VENDA {
+        int quantidade
+        double valorUnitario
+        double subtotal
+    }
+
+    PAGAMENTO {
+        int id PK
+        date dataPagamento
+        double valor
+        string formaPagamento
+        string status
+    }
+
+    CONTA {
+        int id PK
+        date dataVencimento
+        double valor
+        string status
+    }
+```
+
+#### Descrição das Entidades
+
+| Entidade | Descrição | 
+| ----- | ----- | 
+| FUNCIONARIO | Armazena os dados dos funcionários autorizados a operar o sistema. | 
+| CLIENTE | Registra os clientes da empresa vinculados às vendas efetuadas. | 
+| FORNECEDOR | Armazena informações dos parceiros fornecedores de produtos e matérias-primas. | 
+| PRODUTO | Mantém os registros das matérias-primas e temperos embalados, preços e saldo de estoque. | 
+| ENTRADA_PRODUTO | Registra a movimentação de entrada e reposição de itens no estoque. | 
+| VENDA | Armazena o registro principal das transações de vendas efetuadas aos clientes. | 
+| ITEM_VENDA | Tabela associativa que detalha os produtos e quantidades presentes em uma venda. | 
+| PAGAMENTO | Registra as quitações e recebimentos de vendas realizadas à vista. | 
+| CONTA | Registra os lançamentos de contas a receber gerados por vendas efetuadas a prazo. | 
+
+## Lista de Requisitos Não-Funcionais
+
+| Requisito | Descrição | 
+| ----- | ----- | 
+| RNF001 - Interface Intuitiva | Possuir interface simples, amigável e de fácil navegação para usuários operacionais. | 
+| RNF002 - Segurança de Banco de Dados | Armazenar as informações em um Banco de Dados seguro e resiliente. | 
+| RNF003 - Controle de Acesso | Permitir acesso às funcionalidades e dados apenas a usuários devidamente autenticados. | 
+| RNF004 - Integridade dos Dados | Garantir a integridade referencial das informações (impedir exclusões indevidas de registros vinculados). | 
+| RNF005 - Mecanismo de Backup | Possibilitar a realização de backups periódicos dos dados do sistema. | 
+| RNF006 - Desempenho em Consultas | Apresentar excelente desempenho e resposta rápida na execução de consultas de estoque e vendas. | 
+
+## Riscos
+
+Tabela com o mapeamento dos riscos do projeto, as possíveis soluções e os responsáveis.
+
+| Data | Risco | Prioridade | Responsável | Status | Providência/Solução | 
+| ----- | ----- | ----- | ----- | ----- | ----- | 
+| 10/02/2026 | Resistência dos funcionários ao uso do sistema informatizado | Alta | Gerente | Vigente | Realizar treinamentos práticos com interface simplificada | 
+| 10/02/2026 | Inconsistência entre os estoques físico (matéria-prima vs acabados) e lógico | Alta | Analista | Vigente | Realizar inventário inicial rigoroso antes da carga de dados | 
+| 15/02/2026 | Falha de comunicação ou queda da conexão com o banco de dados | Média | Projetista | Vigente | Implementar tratamento de exceção adequado (rollbacks e mensagens claras ao usuário) | 
+| 20/02/2026 | Indisponibilidade da diretoria para validação dos protótipos de tela | Baixa | Gerente | Vigente | Agendar reuniões periódicas curtas com base na disponibilidade da gestão familiar | 
+
+### Referências
+
+\[1\] CURY, Antonio. Organização e Métodos: uma visão holística. 9. ed. São Paulo: Atlas, 2017.
+
+\[2\] PRESSMAN, Roger S. Engenharia de Software. 9. ed. Porto Alegre: AMGH, 2021.
