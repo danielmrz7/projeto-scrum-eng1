@@ -1,3 +1,6 @@
 node_modules
 .next
 data/*.json
+data/*.db
+data/*.db-*
+.env*.local
