@@ -1,7 +1,11 @@
 
 <div align="center">
 
+
+
 **Tabela 1:** Planejamento das iterações da primeira semana
+
+
 
 </div>
 
@@ -10,9 +14,19 @@
 | **Documentação Inicial do Projeto** | Criar Documento de Modelos (`doc-modelos.md`). | Daniel Mariz |
 | | Criar Documento de Visão (`doc-visao.md`). | Daniel Mariz |
 
+
+
+
+
 <div align="center">
 
+
+
+
 **Tabela 2:** Planejamento das iterações da segunda semana
+
+
+
 
 </div>
 
@@ -24,9 +38,17 @@
 | | Implementar exclusão/inativação lógica de clientes. | Jonas Jeronimo Gabriel Uchoa|
 | **Atualização de Documentação** | Atualizar o documento de modelos para englobar toda a documentação do projeto. | Leandro Isaack e Gabriel Uchoa |
 
+
+
+
+
 <div align="center">
 
+
+
 **Tabela 3:** Planejamento das iterações da terceira semana
+
+
 
 </div>
 
