@@ -27,8 +27,8 @@
 | :--- | :--- | :--- |
 | **Integração de Banco de Dados** | Integrar um banco de dados ao site. | Daniel Mariz e Gabriel Uchoa |
 | **Módulos do Sistema** | Criar um módulo funcionário. | Jonas Jeronimo |
-| | Criar um módulo de gestão para produtos. | Leandro Isaack |
-| **Autenticação** | Validar e autenticar credenciais. | Jonas Jeronimo e Leandro Isaack |
+| | Criar um módulo de gestão para produtos. | Jonas Jeronimo |
+| **Autenticação** | Validar e autenticar credenciais. | Jonas Jeronimo |
 
 <div align="center">
 
